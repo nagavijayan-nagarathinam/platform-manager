@@ -4,7 +4,7 @@ metadata:
   name: argocd
   namespace: argocd
 spec:
-  project: production-addons
+  project: default
   sources:
     # Source 1: The official Helm Chart
     - repoURL: https://argoproj.github.io
