@@ -589,8 +589,9 @@ configs:
   ## - https://argo-cd.readthedocs.io/en/stable/operator-manual/declarative-setup/#clusters
   ## - https://argo-cd.readthedocs.io/en/stable/operator-manual/security/#external-cluster-credentials
   ## - https://argo-cd.readthedocs.io/en/stable/user-guide/projects/#project-scoped-repositories-and-clusters
+  # Chart 3.3.2 default is [] (array); use {} for map-style credentials to avoid coalesce warning
   clusterCredentials: {}
-    # mycluster:
+  # mycluster:
     #   server: https://mycluster.example.com
     #   labels: {}
     #   annotations: {}
@@ -790,6 +791,23 @@ controller:
   ## With dynamic cluster distribution turned on, sharding of the clusters will gracefully
   ## rebalance if the number of replica's changes or one becomes unhealthy. (alpha)
   replicas: 1
+
+  # -- Chart 3.3.x: Deploy as StatefulSet (false = Deployment)
+  enableStatefulSet: false
+
+  # -- Chart 3.3.x: Controller commandline flags (required by chart 3.3.2 template)
+  args:
+    statusProcessors: "20"
+    operationProcessors: "10"
+    appResyncPeriod: "180"
+    selfHealTimeout: "5"
+
+  # -- Chart 3.3.x: Log format and level
+  logFormat: text
+  logLevel: info
+
+  # -- Chart 3.3.x: Controller port (template uses controller.containerPort)
+  containerPort: 8082
 
   # -- Enable dynamic cluster distribution (alpha)
   # Ref: https://argo-cd.readthedocs.io/en/stable/operator-manual/dynamic-cluster-distribution
