@@ -9,7 +9,7 @@ spec:
     # Source 1: The official Helm Chart
     - repoURL: https://argoproj.github.io/argo-helm
       chart: argo-cd
-      targetRevision: 7.3.11
+      targetRevision: 3.3.2
       helm:
         # Reference the values file from the second source using the '$values' alias
         valueFiles:
