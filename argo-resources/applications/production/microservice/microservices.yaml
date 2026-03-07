@@ -6,7 +6,7 @@ metadata:
 spec:
   project: production-microservices
   source:
-    repoURL: https://github.com/yourusername/sre-experiments.git
+    repoURL: https://github.com/nagavijayan-nagarathinam/platform-manager
     chart: charts/microservice
     helm:
       releaseName: microservice
