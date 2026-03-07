@@ -1,0 +1,29 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: argocd
+  namespace: argocd
+spec:
+  project: production-addons
+  sources:
+    # Source 1: The official Helm Chart
+    - repoURL: https://argoproj.github.io
+      chart: argo-cd
+      targetRevision: 7.3.11
+      helm:
+        # Reference the values file from the second source using the '$values' alias
+        valueFiles:
+          - $values/values/platform/addons/argocd/argocd.yaml
+    # Source 2: Your Git repository containing the values files
+    - repoURL: https://github.com/nagavijayan-nagarathinam/platform-manager
+      targetRevision: main
+      ref: values
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: argocd
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=false
