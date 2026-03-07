@@ -1,6 +1,13 @@
 # environment: prefix for Argo Application names and value path (values/<environment>/microservices/<group>/<name>.yaml)
 global:
   environment: production
+  destinationServer: https://kubernetes.default.svc
+  gitRepo:
+    url: https://github.com/nagavijayan-nagarathinam/platform-manager
+    branch: main
+  projectName: production-microservices
+  applicationNamespace: argocd
+
 
 # Microservice list – used by argo-apps chart to create one Argo Application per service.
 # Values file per service: values/production/microservices/<group>/<name>.yaml

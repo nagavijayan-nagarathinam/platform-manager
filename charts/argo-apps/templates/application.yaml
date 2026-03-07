@@ -4,9 +4,9 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: {{ default "prod" $.Values.global.environment }}-microservice-{{ .name }}
-  namespace: {{ $.Values.global.application.namespace }}
+  namespace: {{  default "argocd" $.Values.global.application.namespace }}
 spec:
-  project: {{ $.Values.global.projectName }}
+  project: {{ $.Values.environment }}-microservices
   destination:
     server: {{ $.Values.global.destinationServer }}
     namespace: {{ .namespace }}
