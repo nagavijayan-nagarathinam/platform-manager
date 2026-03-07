@@ -1,0 +1,16 @@
+# vote-api – overrides for charts/microservice
+replicaCount: 2
+image:
+  repository: dockersamples/example-voting-app-vote
+  tag: "latest"
+service:
+  type: ClusterIP
+  port: 80
+ingress:
+  enabled: true
+  className: nginx
+  hosts:
+    - host: vote-api.platform.example.com
+      paths:
+        - path: /
+          pathType: Prefix

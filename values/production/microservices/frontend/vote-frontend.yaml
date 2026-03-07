@@ -1,0 +1,20 @@
+# vote-frontend – overrides for charts/microservice
+replicaCount: 2
+image:
+  repository: dockersamples/example-voting-app-result
+  tag: "latest"
+service:
+  type: NodePort
+  port: 80
+ingress:
+  enabled: true
+  className: nginx
+  hosts:
+    - host: vote.platform.example.com
+      paths:
+        - path: /
+          pathType: Prefix
+configmap:
+  data:
+    VOTE_API: "http://vote-api.platform.svc.cluster.local"
+    WORKER_API: "http://vote-worker.platform.svc.cluster.local"

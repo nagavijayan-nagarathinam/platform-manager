@@ -1,0 +1,19 @@
+global:
+  application:
+    namespace: argocd
+  # environment, valuesPath: set in values file (e.g. values/production/microservices/values.yaml)
+  projectName: production-microservices
+  gitRepo:
+    url: https://github.com/nagavijayan-nagarathinam/platform-manager
+    branch: main
+  destinationServer: https://kubernetes.default.svc
+
+# AppProjects (optional – can be managed separately)
+projects:
+  - name: production-microservices
+    sourceRepos:
+      - "*"
+
+# Microservice list: override via -f values/production/microservices/values.yaml
+# Each entry gets an Argo Application with values from values/production/microservices/<name>/values.yaml
+microservices: []

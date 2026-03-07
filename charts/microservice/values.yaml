@@ -1,0 +1,48 @@
+replicaCount: 2
+
+image:
+  repository: nginx  # ← CHANGE per service
+  tag: "1.25"
+  pullPolicy: IfNotPresent
+
+service:
+  type: ClusterIP
+  port: 80
+
+ingress:
+  enabled: true
+  className: "nginx"  # Local: install ingress-nginx
+  annotations: {}
+  hosts:
+    - host: vote.local
+      paths:
+        - path: /
+          pathType: Prefix
+
+resources:
+  limits:
+    cpu: 200m
+    memory: 256Mi
+  requests:
+    cpu: 100m
+    memory: 128Mi
+
+hpa:
+  enabled: true
+  minReplicas: 2
+  maxReplicas: 10
+  targetCPUUtilization: 70
+
+configmap:
+  data:
+    APP_ENV: "dev"
+    LOG_LEVEL: "info"
+
+secret:
+  enabled: true
+  data:
+    DB_PASSWORD: "base64-encoded-value"
+
+serviceAccount:
+  create: true
+  annotations: {}

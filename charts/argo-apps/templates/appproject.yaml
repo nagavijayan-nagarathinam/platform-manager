@@ -1,0 +1,13 @@
+{{- range .Values.projects }}
+---
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: {{ .name }}
+  namespace: {{ $.Values.global.application.namespace }}
+spec:
+  sourceRepos: {{ toYaml .sourceRepos | nindent 4 }}
+  destinations:
+  - namespace: "*"
+    server: {{ $.Values.global.destinationServer }}
+{{- end }}

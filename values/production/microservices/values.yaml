@@ -1,0 +1,16 @@
+# environment: prefix for Argo Application names and value path (values/<environment>/microservices/<group>/<name>.yaml)
+global:
+  environment: production
+
+# Microservice list – used by argo-apps chart to create one Argo Application per service.
+# Values file per service: values/production/microservices/<group>/<name>.yaml
+microservices:
+  - group: backend
+    name: vote-api
+    namespace: platform
+  - group: backend
+    name: vote-worker
+    namespace: platform
+  - group: frontend
+    name: vote-frontend
+    namespace: platform

@@ -1,0 +1,10 @@
+# vote-worker – overrides for charts/microservice
+replicaCount: 1
+image:
+  repository: dockersamples/example-voting-app-worker
+  tag: "latest"
+service:
+  type: ClusterIP
+  port: 80
+ingress:
+  enabled: false

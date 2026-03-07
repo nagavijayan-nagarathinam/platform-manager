@@ -1,0 +1,33 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: production-microservices
+  namespace: argocd
+  # Finalizer ensures that the project isn't deleted until all apps are gone
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  description: Project for development infrastructure addons
+  
+  # Allow manifest to be pulled from any repository
+  # Or restrict it to your specific Git repo for tighter security
+  sourceRepos:
+    - '*'
+
+  # Define where applications in this project can be deployed
+  destinations:
+    - namespace: '*'
+      server: https://kubernetes.default.svc
+
+  # Whitelist what types of resources this project can create
+  # If empty, all cluster-scoped and namespaced resources are allowed
+  clusterResourceWhitelist:
+    - group: '*'
+      kind: '*'
+      
+  # Optional: Define who can access this project via RBAC
+  roles:
+    - name: developer
+      description: Read-only privileges
+      policies:
+        - p, proj:dev-addon:developer, applications, get, dev-addon/*, allow

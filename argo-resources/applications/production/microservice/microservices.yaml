@@ -1,0 +1,19 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: prod-vote-frontend
+  namespace: argocd
+spec:
+  project: production-microservices
+  source:
+    repoURL: https://github.com/yourusername/sre-experiments.git
+    chart: charts/microservice
+    helm:
+      releaseName: microservice
+      valueFiles:
+      - values/production/microservices/values.yaml
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: platform
+  syncPolicy:
+    automated: {prune: true, selfHeal: true}
