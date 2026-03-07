@@ -1,13 +1,14 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: prod-vote-frontend
+  name: production-microservice-manager
   namespace: argocd
 spec:
   project: production-microservices
   source:
     repoURL: https://github.com/nagavijayan-nagarathinam/platform-manager
     chart: charts/microservice
+    targetRevision: 1.0.0
     helm:
       releaseName: microservice
       valueFiles:
