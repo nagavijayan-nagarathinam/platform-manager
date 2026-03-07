@@ -7,7 +7,7 @@ spec:
   project: default
   sources:
     # Source 1: The official Helm Chart
-    - repoURL: https://argoproj.github.io
+    - repoURL: https://argoproj.github.io/argo-helm
       chart: argo-cd
       targetRevision: 7.3.11
       helm:
