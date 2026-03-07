@@ -732,28 +732,28 @@ configs:
 
 # -- Array of extra K8s manifests to deploy
 ## Note: Supports use of custom Helm templates
-extraObjects:
-- apiVersion: argoproj.io/v1alpha1
-  kind: Application
-  metadata:
-    name: argocd-manager
-    namespace: argocd
-  spec:
-    project: default
-    source:
-      repoURL: https://github.com/nagavijayan-nagarathinam/platform-manager
-      targetRevision: main
-      path: argo-resources/
-      # This ensures Argo CD looks for all YAMLs in the directory
-      directory:
-        recurse: true
-    destination:
-      server: https://kubernetes.default.svc
-      namespace: argocd
-    syncPolicy:
-      automated:
-        prune: true
-        selfHeal: true
+extraObjects: []
+# - apiVersion: argoproj.io/v1alpha1
+#   kind: Application
+#   metadata:
+#     name: argocd-manager
+#     namespace: argocd
+#   spec:
+#     project: default
+#     source:
+#       repoURL: https://github.com/nagavijayan-nagarathinam/platform-manager
+#       targetRevision: main
+#       path: argo-resources/
+#       # This ensures Argo CD looks for all YAMLs in the directory
+#       directory:
+#         recurse: true
+#     destination:
+#       server: https://kubernetes.default.svc
+#       namespace: argocd
+#     syncPolicy:
+#       automated:
+#         prune: true
+#         selfHeal: true
   # - apiVersion: secrets-store.csi.x-k8s.io/v1
   #   kind: SecretProviderClass
   #   metadata:
@@ -2348,7 +2348,7 @@ server:
     # -- Server service labels
     labels: {}
     # -- Server service type
-    type: ClusterIP
+    type: LoadBalancer
     # -- Server service http port for NodePort service type (only if `server.service.type` is set to "NodePort")
     nodePortHttp: 30080
     # -- Server service https port for NodePort service type (only if `server.service.type` is set to "NodePort")
