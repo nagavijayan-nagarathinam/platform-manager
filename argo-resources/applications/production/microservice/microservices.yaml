@@ -10,7 +10,7 @@ spec:
     path: charts/argocd-apps
     targetRevision: 1.0.0
     helm:
-      releaseName: microservice
+      releaseName: production-microservice-manager
       valueFiles:
       - values/production/microservices/values.yaml
   destination:
