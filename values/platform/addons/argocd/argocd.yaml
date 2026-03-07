@@ -636,27 +636,23 @@ server:
   ## Applications
   ## reference: https://github.com/argoproj/argo-cd/blob/master/docs/operator-manual/
   additionalApplications:
-  - apiVersion: argoproj.io/v1alpha1
-    kind: Application
-    metadata:
-      name: argocd-manager
+  # Chart 3.3.2 expects flat structure: name, namespace, project (string), source, destination, syncPolicy
+  - name: argocd-manager
+    namespace: argocd
+    project: default
+    source:
+      repoURL: https://github.com/nagavijayan-nagarathinam/platform-manager
+      targetRevision: main
+      path: argo-resources/
+      directory:
+        recurse: true
+    destination:
+      server: https://kubernetes.default.svc
       namespace: argocd
-    spec:
-      project: default
-      source:
-        repoURL: https://github.com/nagavijayan-nagarathinam/platform-manager
-        targetRevision: main
-        path: argo-resources/
-        # This ensures Argo CD looks for all YAMLs in the directory
-        directory:
-          recurse: true
-      destination:
-        server: https://kubernetes.default.svc
-        namespace: argocd
-      syncPolicy:
-        automated:
-          prune: true
-          selfHeal: true
+    syncPolicy:
+      automated:
+        prune: true
+        selfHeal: true
   # - name: guestbook
   #   namespace: argocd
   #   additionalLabels: {}
