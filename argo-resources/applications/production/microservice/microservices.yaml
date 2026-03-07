@@ -7,7 +7,7 @@ spec:
   project: production-microservices
   source:
     repoURL: https://github.com/nagavijayan-nagarathinam/platform-manager
-    path: charts/argo-apps
+    path: charts/argocd-apps
     targetRevision: 1.0.0
     helm:
       releaseName: microservice
