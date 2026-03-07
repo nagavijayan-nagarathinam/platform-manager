@@ -1,24 +1,22 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: argocd
+  name: argocd  # Consider 'argocd-bootstrap' to avoid self-modification
   namespace: argocd
 spec:
   project: default
   sources:
-    # Source 1: The official Helm Chart
-    - repoURL: https://argoproj.github.io/argo-helm
-      chart: argo-cd
-      targetRevision: 9.4.7
-      helm:
-        # Reference the values file from the second source using the '$values' alias
-        valueFiles:
-          - $values/values/platform/addons/argocd/argocd.yaml
-    # Source 2: Your Git repository containing the values files
-    - repoURL: https://github.com/nagavijayan-nagarathinam/platform-manager
-      targetRevision: main
-      ref: values
-  destination:
+  - repoURL: https://argoproj.github.io/argo-helm
+    chart: argo-cd
+    targetRevision: 9.4.7  # Verify chart version exists
+    helm:
+      valueFiles:
+      - $values/values/platform/addons/argocd/argocd.yaml
+  - repoURL: https://github.com/nagavijayan-nagarathinam/platform-manager
+    targetRevision: main
+    ref: values  # Enables $values ref
+    # path: values/platform/addons/argocd  # Add if deploying manifests from subdir
+  destination:  # Move to top-level
     server: https://kubernetes.default.svc
     namespace: argocd
   syncPolicy:
@@ -26,4 +24,4 @@ spec:
       prune: true
       selfHeal: true
     syncOptions:
-      - CreateNamespace=false
+    - CreateNamespace=false
