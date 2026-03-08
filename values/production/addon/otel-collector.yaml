@@ -547,7 +547,7 @@ service:
   # However, to enable it on mode = daemonset, its creation must be explicitly enabled
   # enabled: true
 
-  type: ClusterIP
+  type: LoadBalancer
   # Supported values: PreferClose (deprecated in K8s 1.33+), PreferSameZone, PreferSameNode
   # trafficDistribution: PreferClose
   # type: LoadBalancer

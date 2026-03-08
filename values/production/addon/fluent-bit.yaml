@@ -274,7 +274,7 @@ extraContainerPorts: []
 service:
   ## @param service.type Fluent Bit service type
   ##
-  type: ClusterIP
+  type: LoadBalancer
   ## Ports to expose
   ## ref: https://kubernetes.io/docs/concepts/services-networking/service/#type-nodeport
   ports:

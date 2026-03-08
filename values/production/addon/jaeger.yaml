@@ -173,6 +173,7 @@ jaeger:
     annotations: {}
     automountServiceAccountToken: true
   service:
+    type: LoadBalancer
     labels: {}
     annotations: {}
     extraPorts: []
