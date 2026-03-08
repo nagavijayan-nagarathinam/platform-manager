@@ -1,5 +1,6 @@
 apiVersion: apps/v1
 kind: Deployment
+{{- $fullName := include "generic-service.fullname" . }}
 metadata:
   name: {{ .Release.Name }}
   labels:
@@ -15,19 +16,20 @@ spec:
         app.kubernetes.io/name: {{ .Release.Name }}
     spec:
       {{- if .Values.serviceAccount.create }}
-      serviceAccountName: {{ .Release.Name }}
+      serviceAccountName: {{ include "generic-service.serviceAccountName" . }}
       {{- end }}
       containers:
       - name: {{ .Release.Name }}
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
         ports:
-        - containerPort: {{ .Values.service.port }}
+        - name: http
+          containerPort: {{ .Values.service.port }}
         resources: {{ .Values.resources | toYaml | nindent 10 }}
         envFrom:
         - configMapRef:
-            name: {{ .Release.Name }}
+            name: {{ $fullName }}
         - secretRef:
-            name: {{ .Release.Name }}
+            name: {{ $fullName }}
 {{- if .Values.hpa.enabled }}
 ---
 apiVersion: autoscaling/v1
