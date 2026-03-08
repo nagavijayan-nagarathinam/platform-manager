@@ -12,14 +12,14 @@ spec:
     namespace: {{ .namespace }}
   sources:
   - repoURL: {{ $.Values.global.gitRepo.url }}
-    targetRevision: {{ $.Values.global.gitRepo.branch }}
+    targetRevision: HEAD
     chart: charts/microservice
     helm:
       releaseName: {{ .name }}
       valueFiles:
         - $values/values/{{ default "production" $.Values.global.environment }}/microservices/{{ .group }}/{{ .name }}.yaml
   - repoURL: {{ $.Values.global.gitRepo.url }}
-    targetRevision: {{ $.Values.global.gitRepo.branch }}
+    targetRevision: main
     ref: values  # Enables $values ref
   syncPolicy:
     automated:
