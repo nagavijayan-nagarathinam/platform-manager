@@ -1,0 +1,41 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: production-addon-elk
+  namespace: argocd
+spec:
+  project: production-microservices
+  sources:
+    - repoURL: https://charts.bitnami.com/bitnami
+      chart: elasticsearch
+      targetRevision: "22.1.7"
+      helm:
+        releaseName: platform-elasticsearch
+        valueFiles:
+          - $values/values/production/addon/elasticsearch.yaml
+    - repoURL: https://charts.bitnami.com/bitnami
+      chart: kibana
+      targetRevision: "12.1.11"
+      helm:
+        releaseName: platform-kibana
+        valueFiles:
+          - $values/values/production/addon/kibana.yaml
+    - repoURL: https://fluent.github.io/helm-charts
+      chart: fluent-bit
+      targetRevision: "3.1.14"
+      helm:
+        releaseName: platform-fluent-bit
+        valueFiles:
+          - $values/values/production/addon/fluent-bit.yaml
+    - repoURL: https://github.com/nagavijayan-nagarathinam/platform-manager
+      targetRevision: main
+      ref: values
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: observability
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

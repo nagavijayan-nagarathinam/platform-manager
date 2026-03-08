@@ -1,0 +1,27 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: production-addon-monitoring
+  namespace: argocd
+spec:
+  project: production-microservices
+  sources:
+    - repoURL: https://prometheus-community.github.io/helm-charts
+      chart: kube-prometheus-stack
+      targetRevision: "82.10.1"
+      helm:
+        releaseName: platform-monitoring
+        valueFiles:
+          - $values/values/production/addon/monitoring.yaml
+    - repoURL: https://github.com/nagavijayan-nagarathinam/platform-manager
+      targetRevision: main
+      ref: values
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: observability
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

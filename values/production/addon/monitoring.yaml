@@ -1,0 +1,16 @@
+fullnameOverride: platform-monitoring
+
+prometheus:
+  prometheusSpec:
+    retention: 15d
+    storageSpec:
+      volumeClaimTemplate:
+        spec:
+          accessModes:
+            - ReadWriteOnce
+          resources:
+            requests:
+              storage: 30Gi
+
+grafana:
+  enabled: true

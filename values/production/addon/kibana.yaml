@@ -1,0 +1,13 @@
+fullnameOverride: platform-kibana
+
+replicaCount: 1
+
+elasticsearch:
+  hosts:
+    - platform-elasticsearch.observability.svc.cluster.local
+  port: 9200
+
+service:
+  type: ClusterIP
+  ports:
+    http: 5601

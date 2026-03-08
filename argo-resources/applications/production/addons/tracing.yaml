@@ -1,0 +1,34 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: production-addon-tracing
+  namespace: argocd
+spec:
+  project: production-microservices
+  sources:
+    - repoURL: https://jaegertracing.github.io/helm-charts
+      chart: jaeger
+      targetRevision: "4.5.0"
+      helm:
+        releaseName: platform-jaeger
+        valueFiles:
+          - $values/values/production/addon/jaeger.yaml
+    - repoURL: https://open-telemetry.github.io/opentelemetry-helm-charts
+      chart: opentelemetry-collector
+      targetRevision: "0.146.1"
+      helm:
+        releaseName: platform-otel-collector
+        valueFiles:
+          - $values/values/production/addon/otel-collector.yaml
+    - repoURL: https://github.com/nagavijayan-nagarathinam/platform-manager
+      targetRevision: main
+      ref: values
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: observability
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
