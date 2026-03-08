@@ -16,5 +16,5 @@ ingress:
           pathType: Prefix
 configmap:
   data:
-    VOTE_API: "http://vote-api.production.svc.cluster.local"
-    WORKER_API: "http://vote-worker.production.svc.cluster.local"
+    VOTE_API: "http://vote-api.platform.svc.cluster.local"
+    WORKER_API: "http://vote-worker.platform.svc.cluster.local"

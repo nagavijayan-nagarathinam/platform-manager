@@ -1,0 +1,11 @@
+fullnameOverride: platform-postgres
+
+auth:
+  username: vote
+  password: pgvote123
+  database: voteapp
+
+primary:
+  persistence:
+    enabled: true
+    size: 8Gi

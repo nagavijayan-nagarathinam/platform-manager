@@ -1,0 +1,13 @@
+architecture: standalone
+fullnameOverride: platform-redis
+
+auth:
+  enabled: false
+
+master:
+  persistence:
+    enabled: true
+    size: 8Gi
+
+metrics:
+  enabled: true

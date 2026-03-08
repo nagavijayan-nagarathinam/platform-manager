@@ -15,5 +15,9 @@ projects: []
   #     - "*"
 
 # Microservice list: override via -f values/production/microservices/values.yaml
-# Each entry gets an Argo Application with values from values/production/microservices/<name>/values.yaml
+# Supported per entry keys:
+# - group, name, namespace (required)
+# - releaseName (optional)
+# - valueFile (optional; defaults to values/<env>/microservices/<group>/<name>.yaml)
+# - source.repoURL, source.targetRevision, source.path OR source.chart (optional)
 microservices: []

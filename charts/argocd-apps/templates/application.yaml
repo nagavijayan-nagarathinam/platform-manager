@@ -7,6 +7,22 @@
 {{- $project := default (printf "%s-microservices" $environment) $.Values.global.projectName -}}
 {{- $revision := default "main" $.Values.global.gitRepo.branch -}}
 {{- range .Values.microservices }}
+{{- $releaseName := default .name .releaseName -}}
+{{- $sourceRepoURL := $.Values.global.gitRepo.url -}}
+{{- $sourceRevision := $revision -}}
+{{- $sourcePath := "charts/microservice" -}}
+{{- $sourceChart := "" -}}
+{{- if .source -}}
+{{- $sourceRepoURL = default $sourceRepoURL .source.repoURL -}}
+{{- $sourceRevision = default $sourceRevision .source.targetRevision -}}
+{{- $sourcePath = default $sourcePath .source.path -}}
+{{- $sourceChart = default "" .source.chart -}}
+{{- end }}
+{{- $defaultValueFile := printf "$values/values/%s/microservices/%s/%s.yaml" $environment .group .name -}}
+{{- if $sourceChart -}}
+{{- $defaultValueFile = printf "$values/values/%s/addon/%s.yaml" $environment .name -}}
+{{- end -}}
+{{- $valueFile := default $defaultValueFile .valueFile -}}
 ---
 apiVersion: argoproj.io/v1alpha1
 kind: Application
@@ -19,15 +35,19 @@ spec:
     server: {{ $.Values.global.destinationServer }}
     namespace: {{ .namespace }}
   sources:
-  - repoURL: {{ $.Values.global.gitRepo.url }}
-    targetRevision: {{ $revision }}
-    path: charts/microservice
+  - repoURL: {{ $sourceRepoURL | quote }}
+    targetRevision: {{ $sourceRevision | quote }}
+    {{- if $sourceChart }}
+    chart: {{ $sourceChart | quote }}
+    {{- else }}
+    path: {{ $sourcePath | quote }}
+    {{- end }}
     helm:
-      releaseName: {{ .name }}
+      releaseName: {{ $releaseName | quote }}
       valueFiles:
-        - $values/values/{{ $environment }}/microservices/{{ .group }}/{{ .name }}.yaml
-  - repoURL: {{ $.Values.global.gitRepo.url }}
-    targetRevision: {{ $revision }}
+        - {{ $valueFile | quote }}
+  - repoURL: {{ $.Values.global.gitRepo.url | quote }}
+    targetRevision: {{ $revision | quote }}
     ref: values  # Enables $values ref
   syncPolicy:
     automated:
