@@ -1,7 +1,7 @@
 # vote-api – overrides for charts/microservice
 replicaCount: 2
 image:
-  repository: dockersamples/example-voting-app-vote
+  repository: dockersamples/examplevotingapp_vote
   tag: "latest"
 service:
   type: ClusterIP

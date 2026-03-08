@@ -1,7 +1,7 @@
 # vote-worker – overrides for charts/microservice
 replicaCount: 1
 image:
-  repository: dockersamples/example-voting-app-worker
+  repository: dockersamples/examplevotingapp_worker
   tag: "latest"
 service:
   type: ClusterIP

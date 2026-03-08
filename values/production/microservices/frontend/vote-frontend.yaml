@@ -1,7 +1,7 @@
 # vote-frontend – overrides for charts/microservice
 replicaCount: 2
 image:
-  repository: dockersamples/example-voting-app-result
+  repository: dockersamples/examplevotingapp_result
   tag: "latest"
 service:
   type: NodePort
