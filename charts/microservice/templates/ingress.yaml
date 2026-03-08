@@ -44,7 +44,7 @@ spec:
 {{- if .Values.istio.gateway.enabled -}}
 {{- $istioGateways = list $gatewayName -}}
 {{- else -}}
-{{- $istioGateways = list "istio-system/platform-gateway" -}}
+{{- $istioGateways = list (printf "%s/platform-gateway" .Release.Namespace) -}}
 {{- end -}}
 {{- end -}}
 ---

@@ -756,21 +756,6 @@ extraObjects:
         prune: true
         selfHeal: true
 - apiVersion: networking.istio.io/v1beta1
-  kind: Gateway
-  metadata:
-    name: argocd-gateway
-    namespace: argocd
-  spec:
-    selector:
-      istio: ingressgateway
-    servers:
-    - port:
-        number: 80
-        name: http
-        protocol: HTTP
-      hosts:
-      - argocd.platform.example.com
-- apiVersion: networking.istio.io/v1beta1
   kind: VirtualService
   metadata:
     name: argocd-vs
@@ -779,7 +764,7 @@ extraObjects:
     hosts:
     - argocd.platform.example.com
     gateways:
-    - argocd-gateway
+    - platform/platform-gateway
     http:
     - match:
       - uri:

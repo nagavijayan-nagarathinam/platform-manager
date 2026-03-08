@@ -16,5 +16,9 @@ ingress:
           pathType: Prefix
 istio:
   enabled: true
+  gateways:
+    - platform/platform-gateway
+  gateway:
+    enabled: false
 hpa:
   enabled: false
