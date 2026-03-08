@@ -1,6 +1,10 @@
 apiVersion: apps/v1
 kind: Deployment
-{{- $fullName := include "generic-service.fullname" . }}
+{{ $fullName := include "generic-service.fullname" . }}
+{{ $configMapEnabled := true }}
+{{ if hasKey .Values.configmap "enabled" }}
+{{ $configMapEnabled = .Values.configmap.enabled }}
+{{ end }}
 metadata:
   name: {{ .Release.Name }}
   labels:
@@ -25,11 +29,17 @@ spec:
         - name: http
           containerPort: {{ .Values.service.port }}
         resources: {{ .Values.resources | toYaml | nindent 10 }}
+        {{- if or $configMapEnabled .Values.secret.enabled }}
         envFrom:
+        {{- if $configMapEnabled }}
         - configMapRef:
             name: {{ $fullName }}
+        {{- end }}
+        {{- if .Values.secret.enabled }}
         - secretRef:
             name: {{ $fullName }}
+        {{- end }}
+        {{- end }}
 {{- if .Values.hpa.enabled }}
 ---
 apiVersion: autoscaling/v1

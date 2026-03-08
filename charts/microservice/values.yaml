@@ -34,6 +34,7 @@ hpa:
   targetCPUUtilization: 70
 
 configmap:
+  enabled: true
   data:
     APP_ENV: "dev"
     LOG_LEVEL: "info"

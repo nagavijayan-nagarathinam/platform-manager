@@ -1,3 +1,8 @@
+{{- $configMapEnabled := true -}}
+{{- if hasKey .Values.configmap "enabled" -}}
+{{- $configMapEnabled = .Values.configmap.enabled -}}
+{{- end -}}
+{{- if $configMapEnabled }}
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -7,3 +12,4 @@ metadata:
     app.kubernetes.io/instance: {{ .Release.Name }}
 data:
 {{- toYaml .Values.configmap.data | nindent 2 }}
+{{- end }}
