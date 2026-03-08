@@ -5,14 +5,17 @@ metadata:
   namespace: argocd
 spec:
   project: production-microservices
-  source:
-    repoURL: https://github.com/nagavijayan-nagarathinam/platform-manager
+  sources:
+  - repoURL: https://github.com/nagavijayan-nagarathinam/platform-manager
     path: charts/argocd-apps  # Local Chart.yaml dir
     targetRevision: HEAD   # Latest commit (no tag needed)
     helm:
       releaseName: production-microservice-manager
       valueFiles:
-      - values/production/microservices/values.yaml  # Relative to path
+      - $values/values/production/microservices/values.yaml  # Relative to path
+  - repoURL: https://github.com/nagavijayan-nagarathinam/platform-manager
+    targetRevision: main
+    ref: values  # Enables $values ref
   destination:
     server: https://kubernetes.default.svc
     namespace: argocd
