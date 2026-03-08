@@ -1,3 +1,17 @@
 pilot:
   autoscaleEnabled: false
   replicaCount: 1
+
+meshConfig:
+  enableTracing: true
+  defaultProviders:
+    tracing:
+      - tempo
+  extensionProviders:
+    - name: tempo
+      opentelemetry:
+        service: platform-tempo.observability.svc.cluster.local
+        port: 4317
+  defaultConfig:
+    tracing:
+      sampling: 100
