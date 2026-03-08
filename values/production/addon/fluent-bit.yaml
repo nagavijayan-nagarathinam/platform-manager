@@ -141,10 +141,12 @@ daemonset:
 hostNetwork: false
 ## @param command Command for running the container (set to default if not set). Use array form
 ##
-command: []
+command:
+  - /fluent-bit/bin/fluent-bit
 ## @param args Args for running the container (set to default if not set). Use array form
 ##
-args: []
+args:
+  - --config=/fluent-bit/etc/conf/fluent-bit.conf
 ## @param lifecycleHooks [object] Override default etcd container hooks
 ##
 lifecycleHooks: {}
