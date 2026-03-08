@@ -8,3 +8,5 @@ service:
   port: 80
 ingress:
   enabled: false
+hpa:
+  enabled: false

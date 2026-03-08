@@ -16,6 +16,8 @@ ingress:
           pathType: Prefix
 istio:
   enabled: true
+hpa:
+  enabled: false
 configmap:
   data:
     VOTE_API: "http://vote-api.platform.svc.cluster.local"

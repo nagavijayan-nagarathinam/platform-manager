@@ -16,3 +16,5 @@ ingress:
           pathType: Prefix
 istio:
   enabled: true
+hpa:
+  enabled: false
