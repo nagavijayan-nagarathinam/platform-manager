@@ -21,8 +21,11 @@ ingress:
 
 istio:
   enabled: false
+  hosts: []
+  gateways: []
   gateway:
     enabled: true
+    name: ""
     selector:
       istio: ingressgateway
 

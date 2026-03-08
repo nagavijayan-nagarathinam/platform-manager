@@ -1,4 +1,5 @@
-{{- if .Values.ingress.enabled -}}
+{{- $istioEnabled := default false .Values.istio.enabled -}}
+{{- if and .Values.ingress.enabled (not $istioEnabled) -}}
 {{- $fullName := include "generic-service.fullname" . -}}
 apiVersion: networking.k8s.io/v1
 kind: Ingress
@@ -30,24 +31,39 @@ spec:
       {{- end }}
   {{- end }}
 {{- end }}
-{{- if .Values.istio.enabled }}
+{{- if $istioEnabled }}
+{{- $gatewayName := default (printf "%s-gateway" .Release.Name) .Values.istio.gateway.name -}}
+{{- $istioHosts := .Values.istio.hosts -}}
+{{- if eq (len $istioHosts) 0 -}}
+{{- range .Values.ingress.hosts }}
+{{- $istioHosts = append $istioHosts .host -}}
+{{- end -}}
+{{- end -}}
+{{- $istioGateways := .Values.istio.gateways -}}
+{{- if eq (len $istioGateways) 0 -}}
+{{- if .Values.istio.gateway.enabled -}}
+{{- $istioGateways = list $gatewayName -}}
+{{- else -}}
+{{- $istioGateways = list "istio-system/platform-gateway" -}}
+{{- end -}}
+{{- end -}}
 ---
 {{- if .Values.istio.gateway.enabled }}
 apiVersion: networking.istio.io/v1beta1
 kind: Gateway
 metadata:
-  name: {{ .Release.Name }}-gateway
+  name: {{ $gatewayName }}
 spec:
   selector:
 {{ toYaml .Values.istio.gateway.selector | nindent 4 }}
   servers:
-  {{- range .Values.ingress.hosts }}
+  {{- range $istioHosts }}
   - port:
       number: 80
       name: http
       protocol: HTTP
     hosts:
-      - {{ .host | quote }}
+      - {{ . | quote }}
   {{- end }}
 ---
 {{- end }}
@@ -57,11 +73,13 @@ metadata:
   name: {{ .Release.Name }}-vs
 spec:
   hosts:
-  {{- range .Values.ingress.hosts }}
-    - {{ .host | quote }}
+  {{- range $istioHosts }}
+    - {{ . | quote }}
   {{- end }}
   gateways:
-    - {{ .Release.Name }}-gateway
+  {{- range $istioGateways }}
+    - {{ . }}
+  {{- end }}
   http:
     - match:
       {{- range .Values.ingress.hosts }}
