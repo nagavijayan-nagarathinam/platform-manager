@@ -577,6 +577,7 @@ config:
         Host            platform-elasticsearch.observability.svc.cluster.local
         Port            9200
         Logstash_Format On
+        Suppress_Type_Name On
         Retry_Limit     False
   ## @param config.upstream This configuration is deprecated, please use `extraFiles` instead.
   ## https://docs.fluentbit.io/manual/administration/configuring-fluent-bit/classic-mode/upstream-servers
