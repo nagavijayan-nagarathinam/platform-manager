@@ -6,7 +6,7 @@ metadata:
   name: {{ default "prod" $.Values.global.environment }}-microservice-{{ .name }}
   namespace: {{  default "argocd" $.Values.global.application.namespace }}
 spec:
-  project: {{ $.Values.environment }}-microservices
+  project: {{ $.Values.global.environment }}-microservices
   destination:
     server: {{ $.Values.global.destinationServer }}
     namespace: {{ .namespace }}
