@@ -1,0 +1,27 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: production-addon-istio
+  namespace: argocd
+spec:
+  project: production-microservices
+  sources:
+    - repoURL: https://istio-release.storage.googleapis.com/charts
+      chart: base
+      targetRevision: "*"
+      helm:
+        releaseName: istio-base
+        valueFiles:
+          - $values/values/production/addon/istio.yaml
+    - repoURL: https://github.com/nagavijayan-nagarathinam/platform-manager
+      targetRevision: main
+      ref: values
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: istio-system
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
