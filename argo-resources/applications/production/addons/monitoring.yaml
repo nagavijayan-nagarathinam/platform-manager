@@ -13,6 +13,20 @@ spec:
         releaseName: platform-monitoring
         valueFiles:
           - $values/values/production/addon/monitoring.yaml
+    - repoURL: https://grafana.github.io/helm-charts
+      chart: loki-stack
+      targetRevision: "2.10.3"
+      helm:
+        releaseName: platform-loki
+        valueFiles:
+          - $values/values/production/addon/loki.yaml
+    - repoURL: https://grafana.github.io/helm-charts
+      chart: tempo
+      targetRevision: "1.24.4"
+      helm:
+        releaseName: platform-tempo
+        valueFiles:
+          - $values/values/production/addon/tempo.yaml
     - repoURL: https://github.com/nagavijayan-nagarathinam/platform-manager
       targetRevision: main
       ref: values
