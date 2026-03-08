@@ -39,7 +39,7 @@ configmap:
     LOG_LEVEL: "info"
 
 secret:
-  enabled: true
+  enabled: false
   data:
     DB_PASSWORD: "base64-encoded-value"
 
