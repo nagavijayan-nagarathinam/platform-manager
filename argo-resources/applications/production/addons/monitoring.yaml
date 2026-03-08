@@ -11,6 +11,7 @@ spec:
       targetRevision: "82.10.1"
       helm:
         releaseName: platform-monitoring
+        skipCrds: true
         valueFiles:
           - $values/values/production/addon/monitoring.yaml
     - repoURL: https://grafana.github.io/helm-charts
