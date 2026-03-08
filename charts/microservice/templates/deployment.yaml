@@ -28,8 +28,9 @@ spec:
             name: {{ .Release.Name }}
         - secretRef:
             name: {{ .Release.Name }}
+{{- if .Values.hpa.enabled }}
 ---
-apiVersion: apps/v1
+apiVersion: autoscaling/v1
 kind: HorizontalPodAutoscaler
 metadata:
   name: {{ .Release.Name }}
@@ -41,6 +42,4 @@ spec:
   minReplicas: {{ .Values.hpa.minReplicas }}
   maxReplicas: {{ .Values.hpa.maxReplicas }}
   targetCPUUtilizationPercentage: {{ .Values.hpa.targetCPUUtilization }}
-{{- if .Values.hpa.targetMemoryUtilizationPercentage }}
-  targetMemoryUtilizationPercentage: {{ .Values.hpa.targetMemoryUtilizationPercentage }}
 {{- end }}
