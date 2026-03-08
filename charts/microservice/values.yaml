@@ -19,6 +19,13 @@ ingress:
         - path: /
           pathType: Prefix
 
+istio:
+  enabled: false
+  gateway:
+    enabled: true
+    selector:
+      istio: ingressgateway
+
 resources:
   limits:
     cpu: 200m

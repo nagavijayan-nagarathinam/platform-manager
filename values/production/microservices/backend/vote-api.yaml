@@ -7,10 +7,12 @@ service:
   type: ClusterIP
   port: 80
 ingress:
-  enabled: true
+  enabled: false
   className: nginx
   hosts:
     - host: vote-api.platform.example.com
       paths:
         - path: /
           pathType: Prefix
+istio:
+  enabled: true

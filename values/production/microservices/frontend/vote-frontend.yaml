@@ -4,16 +4,18 @@ image:
   repository: dockersamples/examplevotingapp_result
   tag: "latest"
 service:
-  type: NodePort
+  type: ClusterIP
   port: 80
 ingress:
-  enabled: true
+  enabled: false
   className: nginx
   hosts:
     - host: vote.platform.example.com
       paths:
         - path: /
           pathType: Prefix
+istio:
+  enabled: true
 configmap:
   data:
     VOTE_API: "http://vote-api.platform.svc.cluster.local"
