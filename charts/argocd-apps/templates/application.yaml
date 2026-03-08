@@ -23,7 +23,7 @@
 {{- $defaultValueFile = printf "$values/values/%s/addon/%s.yaml" $environment .name -}}
 {{- end -}}
 {{- $valueFile := default $defaultValueFile .valueFile -}}
----
+{{ "\n---" }}
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
