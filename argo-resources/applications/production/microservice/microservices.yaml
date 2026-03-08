@@ -7,15 +7,15 @@ spec:
   project: production-microservices
   source:
     repoURL: https://github.com/nagavijayan-nagarathinam/platform-manager
-    path: charts/argo-apps  # Local Chart.yaml dir
+    path: charts/argocd-apps  # Local Chart.yaml dir
     targetRevision: HEAD   # Latest commit (no tag needed)
     helm:
-      releaseName: microservice
+      releaseName: production-microservice-manager
       valueFiles:
       - values/production/microservices/values.yaml  # Relative to path
   destination:
     server: https://kubernetes.default.svc
-    namespace: platform
+    namespace: argocd
   syncPolicy:
     automated:
       prune: true
