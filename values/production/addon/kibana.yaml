@@ -302,11 +302,11 @@ persistence:
 ## @param startupProbe.successThreshold Minimum consecutive successes for the probe to be considered successful after having failed.
 ##
 startupProbe:
-  enabled: false
-  initialDelaySeconds: 120
+  enabled: true
+  initialDelaySeconds: 60
   periodSeconds: 10
-  timeoutSeconds: 5
-  failureThreshold: 6
+  timeoutSeconds: 10
+  failureThreshold: 30
   successThreshold: 1
 ## Configure extra options for liveness probe
 ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/#configure-probes)
@@ -319,9 +319,9 @@ startupProbe:
 ##
 livenessProbe:
   enabled: true
-  initialDelaySeconds: 120
+  initialDelaySeconds: 300
   periodSeconds: 10
-  timeoutSeconds: 5
+  timeoutSeconds: 10
   failureThreshold: 6
   successThreshold: 1
 ## Configure extra options for readiness probe
@@ -335,10 +335,10 @@ livenessProbe:
 ##
 readinessProbe:
   enabled: true
-  initialDelaySeconds: 30
+  initialDelaySeconds: 120
   periodSeconds: 10
-  timeoutSeconds: 5
-  failureThreshold: 6
+  timeoutSeconds: 10
+  failureThreshold: 18
   successThreshold: 1
 ## @param customStartupProbe Custom liveness probe for the Web component
 ##
