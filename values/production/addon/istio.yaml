@@ -43,18 +43,3 @@ _internal_defaults_do_not_set:
   defaultRevision: "default"
   experimental:
     stableValidationPolicy: false
-
-# Localhost profile: keep control plane and ingress to 1 replica.
-pilot:
-  autoscaleEnabled: false
-  replicaCount: 1
-
-gateways:
-  istio-ingressgateway:
-    autoscaleEnabled: false
-    replicaCount: 1
-
-# Used by the standalone Istio gateway chart.
-autoscaling:
-  enabled: false
-replicaCount: 1
