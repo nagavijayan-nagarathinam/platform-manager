@@ -1,25 +1,33 @@
+{{- $legacyAppNamespace := "" -}}
+{{- with (get $.Values.global "application") -}}
+{{- $legacyAppNamespace = get . "namespace" -}}
+{{- end -}}
+{{- $appNamespace := coalesce $.Values.global.applicationNamespace $legacyAppNamespace "argocd" -}}
+{{- $environment := default "production" $.Values.global.environment -}}
+{{- $project := default (printf "%s-microservices" $environment) $.Values.global.projectName -}}
+{{- $revision := default "main" $.Values.global.gitRepo.branch -}}
 {{- range .Values.microservices }}
 ---
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: {{ default "prod" $.Values.global.environment }}-microservice-{{ .name }}
-  namespace: argocd
+  name: {{ $environment }}-microservice-{{ .name }}
+  namespace: {{ $appNamespace }}
 spec:
-  project: {{ $.Values.global.environment }}-microservices
+  project: {{ $project }}
   destination:
     server: {{ $.Values.global.destinationServer }}
     namespace: {{ .namespace }}
   sources:
   - repoURL: {{ $.Values.global.gitRepo.url }}
-    targetRevision: HEAD
+    targetRevision: {{ $revision }}
     path: charts/microservice
     helm:
       releaseName: {{ .name }}
       valueFiles:
-        - $values/values/{{ default "production" $.Values.global.environment }}/microservices/{{ .group }}/{{ .name }}.yaml
+        - $values/values/{{ $environment }}/microservices/{{ .group }}/{{ .name }}.yaml
   - repoURL: {{ $.Values.global.gitRepo.url }}
-    targetRevision: main
+    targetRevision: {{ $revision }}
     ref: values  # Enables $values ref
   syncPolicy:
     automated:

@@ -8,8 +8,10 @@ metadata:
     app.kubernetes.io/name: {{ include "generic-service.name" . }}
     app.kubernetes.io/instance: {{ $fullName }}
   annotations:
-    {{- toYaml .Values.ingress.annotations | nindent 4 }}
     nginx.ingress.kubernetes.io/rewrite-target: /
+    {{- with .Values.ingress.annotations }}
+{{ toYaml . | nindent 4 }}
+    {{- end }}
 spec:
   ingressClassName: {{ .Values.ingress.className }}
   rules:
