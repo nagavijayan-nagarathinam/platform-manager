@@ -440,6 +440,7 @@ configs:
     # You can customize parameters by adding parameters here.
     # (e.g.)
     # otlp.address: ''
+    server.insecure: "true"
 
   # Argo CD RBAC policy configuration
   ## Ref: https://github.com/argoproj/argo-cd/blob/master/docs/operator-manual/rbac.md
@@ -754,6 +755,40 @@ extraObjects:
       automated:
         prune: true
         selfHeal: true
+- apiVersion: networking.istio.io/v1beta1
+  kind: Gateway
+  metadata:
+    name: argocd-gateway
+    namespace: argocd
+  spec:
+    selector:
+      istio: ingressgateway
+    servers:
+    - port:
+        number: 80
+        name: http
+        protocol: HTTP
+      hosts:
+      - argocd.platform.example.com
+- apiVersion: networking.istio.io/v1beta1
+  kind: VirtualService
+  metadata:
+    name: argocd-vs
+    namespace: argocd
+  spec:
+    hosts:
+    - argocd.platform.example.com
+    gateways:
+    - argocd-gateway
+    http:
+    - match:
+      - uri:
+          prefix: /
+      route:
+      - destination:
+          host: argocd-server.argocd.svc.cluster.local
+          port:
+            number: 80
   # - apiVersion: secrets-store.csi.x-k8s.io/v1
   #   kind: SecretProviderClass
   #   metadata:
