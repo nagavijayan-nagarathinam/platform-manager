@@ -387,7 +387,13 @@ useGOMEMLIMIT: true
 
 # Resource limits & requests.
 # It is HIGHLY recommended to set resource limits.
-resources: {}
+resources:
+  requests:
+    cpu: 100m
+    memory: 192Mi
+  limits:
+    cpu: 300m
+    memory: 384Mi
 # resources:
 #   limits:
 #     cpu: 250m

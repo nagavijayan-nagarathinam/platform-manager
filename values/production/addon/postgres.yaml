@@ -8,4 +8,11 @@ auth:
 primary:
   persistence:
     enabled: true
-    size: 8Gi
+    size: 2Gi
+  resources:
+    requests:
+      cpu: 100m
+      memory: 256Mi
+    limits:
+      cpu: 300m
+      memory: 512Mi

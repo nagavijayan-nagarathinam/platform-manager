@@ -1044,12 +1044,19 @@ alertmanager:
     ## Time duration Alertmanager shall retain data for. Default is '120h', and must match the regular expression
     ## [0-9]+(ms|s|m|h) (milliseconds seconds minutes hours).
     ##
-    retention: 120h
+    retention: 24h
 
     ## Storage is the definition of how storage will be used by the Alertmanager instances.
     ## ref: https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/platform/storage.md
     ##
-    storage: {}
+    storage:
+      volumeClaimTemplate:
+        spec:
+          accessModes:
+            - ReadWriteOnce
+          resources:
+            requests:
+              storage: 2Gi
     # volumeClaimTemplate:
     #   spec:
     #     storageClassName: gluster
@@ -1088,7 +1095,13 @@ alertmanager:
     ## Define resources requests and limits for single Pods.
     ## ref: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/
     ##
-    resources: {}
+    resources:
+      requests:
+        cpu: 50m
+        memory: 128Mi
+      limits:
+        cpu: 200m
+        memory: 256Mi
     # requests:
     #   memory: 400Mi
 
@@ -2559,9 +2572,9 @@ nodeExporter:
     linux:
       enabled: true
     aix:
-      enabled: true
+      enabled: false
     darwin:
-      enabled: true
+      enabled: false
 
   ## ForceDeployDashboard Create dashboard configmap even if nodeExporter deployment has been disabled
   ##
@@ -3246,7 +3259,13 @@ prometheusOperator:
 
   ## Resource limits & requests
   ##
-  resources: {}
+  resources:
+    requests:
+      cpu: 100m
+      memory: 192Mi
+    limits:
+      cpu: 300m
+      memory: 384Mi
   # limits:
   #   cpu: 200m
   #   memory: 200Mi
@@ -4333,7 +4352,7 @@ prometheus:
 
     ## How long to retain metrics
     ##
-    retention: 15d
+    retention: 24h
 
     ## Maximum size of metrics
     ## Unit format should be in the form of "50GiB"
@@ -4431,7 +4450,13 @@ prometheus:
 
     ## Resource limits & requests
     ##
-    resources: {}
+    resources:
+      requests:
+        cpu: 100m
+        memory: 256Mi
+      limits:
+        cpu: 300m
+        memory: 512Mi
     # requests:
     #   memory: 400Mi
 
@@ -4445,7 +4470,7 @@ prometheus:
             - ReadWriteOnce
           resources:
             requests:
-              storage: 30Gi
+              storage: 5Gi
     ## Using PersistentVolumeClaim
     ##
     #  volumeClaimTemplate:

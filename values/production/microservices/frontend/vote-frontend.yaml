@@ -1,5 +1,5 @@
 # vote-frontend – overrides for charts/microservice
-replicaCount: 2
+replicaCount: 1
 image:
   repository: dockersamples/examplevotingapp_result
   tag: "latest"

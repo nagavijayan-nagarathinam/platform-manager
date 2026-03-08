@@ -254,7 +254,7 @@ volumePermissions:
 persistence:
   ## @param persistence.enabled Enable persistence
   ##
-  enabled: true
+  enabled: false
   ## @param persistence.storageClass Kibana data Persistent Volume Storage Class
   ## If defined, storageClassName: <storageClass>
   ## If set to "-", storageClassName: "", which disables dynamic provisioning
@@ -272,7 +272,7 @@ persistence:
     - ReadWriteOnce
   ## @param persistence.size Size for the PV
   ##
-  size: 10Gi
+  size: 2Gi
   ## @param persistence.annotations Persistent Volume Claim annotations
   ##
   annotations: {}
@@ -625,7 +625,7 @@ containerSecurityContext:
 ## @param resourcesPreset Set container resources according to one common preset (allowed values: none, nano, micro, small, medium, large, xlarge, 2xlarge). This is ignored if resources is set (resources is recommended for production).
 ## More information: https://github.com/bitnami/charts/blob/main/bitnami/common/templates/_resources.tpl#L15
 ##
-resourcesPreset: "small"
+resourcesPreset: "nano"
 ## @param resources Set container requests and limits for different resources like CPU or memory (essential for production workloads)
 ## Example:
 ## resources:
