@@ -10,14 +10,17 @@ spec:
   destination:
     server: {{ $.Values.global.destinationServer }}
     namespace: {{ .namespace }}
-  source:
-    repoURL: {{ $.Values.global.gitRepo.url }}
+  sources:
+  - repoURL: {{ $.Values.global.gitRepo.url }}
     targetRevision: {{ $.Values.global.gitRepo.branch }}
     chart: charts/microservice
     helm:
       releaseName: {{ .name }}
       valueFiles:
-        - values/{{ default "production" $.Values.global.environment }}/microservices/{{ .group }}/{{ .name }}.yaml
+        - $values/values/{{ default "production" $.Values.global.environment }}/microservices/{{ .group }}/{{ .name }}.yaml
+  - repoURL: {{ $.Values.global.gitRepo.url }}
+    targetRevision: {{ $.Values.global.gitRepo.branch }}
+    ref: values  # Enables $values ref
   syncPolicy:
     automated:
       prune: true
