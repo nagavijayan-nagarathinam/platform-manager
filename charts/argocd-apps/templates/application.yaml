@@ -13,7 +13,7 @@ spec:
   sources:
   - repoURL: {{ $.Values.global.gitRepo.url }}
     targetRevision: HEAD
-    chart: charts/microservice
+    path: charts/microservice
     helm:
       releaseName: {{ .name }}
       valueFiles:
