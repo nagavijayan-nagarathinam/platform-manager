@@ -1256,11 +1256,6 @@ alertmanager:
 grafana:
   enabled: true
 
-prometheus-node-exporter:
-  hostRootFsMount:
-    enabled: false
-  namespaceOverride: ""
-
   ## ForceDeployDatasources Create datasource configmap even if grafana deployment has been disabled
   ##
   forceDeployDatasources: false
@@ -2576,6 +2571,8 @@ nodeExporter:
 ##
 prometheus-node-exporter:
   namespaceOverride: ""
+  hostRootFsMount:
+    enabled: false
   podLabels:
     ## Add the 'node-exporter' label to be used by serviceMonitor and podMonitor to match standard common usage in rules and grafana dashboards
     ##
