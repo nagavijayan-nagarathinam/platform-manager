@@ -4,7 +4,7 @@ metadata:
   name: production-addon-istio
   namespace: argocd
 spec:
-  project: production-microservices
+  project: production-addons
   sources:
     - repoURL: https://istio-release.storage.googleapis.com/charts
       chart: base
@@ -32,11 +32,6 @@ spec:
     - repoURL: https://github.com/nagavijayan-nagarathinam/platform-manager
       targetRevision: main
       ref: values
-    - repoURL: https://github.com/nagavijayan-nagarathinam/platform-manager
-      targetRevision: main
-      path: argo-resources/applications/production/addons
-      directory:
-        recurse: true
   destination:
     server: https://kubernetes.default.svc
     namespace: istio-system

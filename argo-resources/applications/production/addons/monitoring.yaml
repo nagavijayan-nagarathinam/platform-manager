@@ -4,7 +4,7 @@ metadata:
   name: production-addon-monitoring
   namespace: argocd
 spec:
-  project: production-microservices
+  project: production-addons
   sources:
     - repoURL: https://prometheus-community.github.io/helm-charts
       chart: kube-prometheus-stack
