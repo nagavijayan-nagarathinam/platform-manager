@@ -1490,10 +1490,10 @@ grafana:
 
       ## Field with internal link pointing to existing data source in Grafana.
       ## Can be provisioned via additionalDataSources
-      exemplarTraceIdDestinations: {}
-        # datasourceUid: Jaeger
-        # traceIdLabelName: trace_id
-        # urlDisplayLabel: View traces
+      exemplarTraceIdDestinations:
+        datasourceUid: tempo
+        traceIdLabelName: trace_id
+        urlDisplayLabel: View trace
       alertmanager:
         enabled: true
         name: Alertmanager
@@ -1522,10 +1522,14 @@ grafana:
       isDefault: false
       editable: true
       jsonData:
-        maxLines: 1000
+        maxLines: 5000
         derivedFields:
           - name: TraceID
-            matcherRegex: "trace[_-]?id[\"=: ]+([a-fA-F0-9-]+)"
+            matcherRegex: "(?:trace(?:_|-)?id|traceID)[\"'= :]+([a-fA-F0-9]{16,32})"
+            datasourceUid: tempo
+            url: "$${__value.raw}"
+          - name: TraceParent
+            matcherRegex: "traceparent[\"'= :]+(?:[a-fA-F0-9]{2}-)?([a-fA-F0-9]{32})-[a-fA-F0-9]{16}-[a-fA-F0-9]{2}"
             datasourceUid: tempo
             url: "$${__value.raw}"
     - name: Tempo
@@ -1540,6 +1544,25 @@ grafana:
           enabled: true
         search:
           hide: false
+        serviceMap:
+          datasourceUid: prometheus
+        tracesToLogs:
+          datasourceUid: loki
+          spanStartTimeShift: "-5m"
+          spanEndTimeShift: "5m"
+          filterByTraceID: true
+          filterBySpanID: true
+          tags:
+            - key: service.name
+            - key: k8s.namespace.name
+            - key: k8s.pod.name
+          mappedTags:
+            - key: service.name
+              value: app
+            - key: k8s.namespace.name
+              value: namespace
+            - key: k8s.pod.name
+              value: pod
   # - name: prometheus-sample
   #   access: proxy
   #   basicAuth: true
