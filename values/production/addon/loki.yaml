@@ -1,22 +1,46 @@
-test_pod:
-  enabled: false
+deploymentMode: SingleBinary
 
 loki:
-  enabled: true
-  isDefault: false
+  auth_enabled: false
+  commonConfig:
+    replication_factor: 1
+  storage:
+    type: filesystem
+  useTestSchema: true
+  limits_config:
+    volume_enabled: true
 
-promtail:
-  enabled: true
+singleBinary:
+  replicas: 1
   resources:
     requests:
-      cpu: 50m
-      memory: 128Mi
-    limits:
-      cpu: 200m
+      cpu: 100m
       memory: 256Mi
+    limits:
+      cpu: 500m
+      memory: 1Gi
+  persistence:
+    enabled: true
+    size: 10Gi
 
-grafana:
+write:
+  replicas: 0
+read:
+  replicas: 0
+backend:
+  replicas: 0
+
+gateway:
   enabled: false
 
-prometheus:
+lokiCanary:
+  enabled: false
+
+test:
+  enabled: false
+
+chunksCache:
+  enabled: false
+
+resultsCache:
   enabled: false

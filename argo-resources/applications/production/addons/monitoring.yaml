@@ -15,12 +15,19 @@ spec:
         valueFiles:
           - $values/values/production/addon/monitoring.yaml
     - repoURL: https://grafana.github.io/helm-charts
-      chart: loki-stack
-      targetRevision: "2.10.3"
+      chart: loki
+      targetRevision: "6.53.0"
       helm:
         releaseName: platform-loki
         valueFiles:
           - $values/values/production/addon/loki.yaml
+    - repoURL: https://grafana.github.io/helm-charts
+      chart: promtail
+      targetRevision: "6.17.1"
+      helm:
+        releaseName: platform-promtail
+        valueFiles:
+          - $values/values/production/addon/promtail.yaml
     - repoURL: https://grafana.github.io/helm-charts
       chart: tempo
       targetRevision: "1.24.4"
