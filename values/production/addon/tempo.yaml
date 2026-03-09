@@ -2,6 +2,15 @@ replicas: 1
 
 tempo:
   reportingEnabled: false
+  metricsGenerator:
+    enabled: true
+    remoteWriteUrl: "http://platform-monitoring-prometheus.observability.svc.cluster.local:9090/api/v1/write"
+  overrides:
+    defaults:
+      metrics_generator:
+        processors:
+          - service-graphs
+          - span-metrics
   resources:
     requests:
       cpu: 100m
