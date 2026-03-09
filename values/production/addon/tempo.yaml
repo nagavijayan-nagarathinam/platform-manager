@@ -9,6 +9,7 @@ tempo:
     defaults:
       metrics_generator:
         processors:
+          - local-blocks
           - service-graphs
           - span-metrics
   resources:
