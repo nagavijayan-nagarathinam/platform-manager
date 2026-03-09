@@ -12,6 +12,10 @@ loki:
 
 singleBinary:
   replicas: 1
+  podLabels:
+    app.kubernetes.io/name: loki
+    app.kubernetes.io/instance: platform-loki
+    app.kubernetes.io/component: single-binary
   resources:
     requests:
       cpu: 100m
