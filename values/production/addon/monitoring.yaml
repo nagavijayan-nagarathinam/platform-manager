@@ -1553,9 +1553,9 @@ grafana:
           filterByTraceID: true
           filterBySpanID: true
           tags:
-            - key: service.name
-            - key: k8s.namespace.name
-            - key: k8s.pod.name
+            - service.name
+            - k8s.namespace.name
+            - k8s.pod.name
           mappedTags:
             - key: service.name
               value: app
