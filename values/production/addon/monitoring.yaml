@@ -1563,6 +1563,13 @@ grafana:
               value: namespace
             - key: k8s.pod.name
               value: pod
+    - name: Pyroscope
+      type: grafana-pyroscope-datasource
+      uid: pyroscope
+      access: proxy
+      url: http://platform-pyroscope:4040
+      isDefault: false
+      editable: true
   # - name: prometheus-sample
   #   access: proxy
   #   basicAuth: true
