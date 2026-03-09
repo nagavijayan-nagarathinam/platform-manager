@@ -1,0 +1,34 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: production-addon-data
+  namespace: argocd
+spec:
+  project: production-addons
+  sources:
+    - repoURL: https://charts.bitnami.com/bitnami
+      chart: redis
+      targetRevision: "25.3.2"
+      helm:
+        releaseName: redis
+        valueFiles:
+          - $values/values/production/addon/redis.yaml
+    - repoURL: https://charts.bitnami.com/bitnami
+      chart: postgresql
+      targetRevision: "18.5.5"
+      helm:
+        releaseName: db
+        valueFiles:
+          - $values/values/production/addon/postgres.yaml
+    - repoURL: https://github.com/nagavijayan-nagarathinam/platform-manager
+      targetRevision: main
+      ref: values
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: platform
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
